@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwilma=self.webpackChunkwilma||[]).push([[5],{1310:function(n,e,t){var u=t(55);document.addEventListener("DOMContentLoaded",(function(){(0,u.J)(null,window)}))}},function(n){n(n.s=1310)}]);

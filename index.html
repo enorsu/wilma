@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fi"><head>
+<script src="wilma.js" defer></script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--Estää yhteensopivuusnäkymät IE:llä-->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#0974b3">
+    <title>
+        Wilmaan kirjautuminen</title>
+
+        
+            <link href="data/bootstrap.min.css" rel="StyleSheet" type="text/css">
+            <link href="data/nc.min.css" rel="StyleSheet" type="text/css">
+            <link href="data/datepicker.css" rel="StyleSheet" type="text/css">
+            <link href="data/bootstrap-slider.min.css" rel="StyleSheet" type="text/css">
+            <link href="data/wilma.css" rel="StyleSheet" type="text/css">
+            <link href="data/react-datepicker.min.css" rel="StyleSheet" type="text/css">
+
+            
+
+        
+
+        <link href="https://cdn.inschool.fi/2.34.21.1/styles/wilma-brand-renewal/img/wilma-favicon.png" rel="icon" type="image/png" sizes="any">
+        <link href="https://cdn.inschool.fi/2.34.21.1/styles/wilma-brand-renewal/img/wilma-favicon.svg" rel="icon" type="image/svg+xml">
+
+        
+
+        
+            <script src="data/jquery.min.js" type="text/javascript" language="JavaScript"> </script><script>/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+var __webpack_exports__ = {};
+
+;// CONCATENATED MODULE: ../core/dist/flash-identifiers.js
+const FLASH_MIMETYPE = "application/x-shockwave-flash";
+const FUTURESPLASH_MIMETYPE = "application/futuresplash";
+const FLASH7_AND_8_MIMETYPE = "application/x-shockwave-flash2-preview";
+const FLASH_MOVIE_MIMETYPE = "application/vnd.adobe.flash.movie";
+const FLASH_ACTIVEX_CLASSID = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000";
+
+;// CONCATENATED MODULE: ../core/dist/plugin-polyfill.js
+
+/**
+ * Replacement object for `MimeTypeArray` that lets us install new fake mime
+ * types.
+ *
+ * Unlike plugins we can at least enumerate mime types in Firefox, so we don't
+ * lose data.
+ *
+ * We also expose a method called `install` which adds a new plugin. This is
+ * used to falsify Flash detection. If the existing `navigator.mimeTypes` has an
+ * `install` method, you should not use `RuffleMimeTypeArray` as some other
+ * plugin emulator is already present.
+ */
+class RuffleMimeTypeArray {
+    constructor(mimeTypes) {
+        this.__mimeTypes = [];
+        this.__namedMimeTypes = {};
+        if (mimeTypes) {
+            for (let i = 0; i < mimeTypes.length; i++) {
+                this.install(mimeTypes[i]);
+            }
+        }
+    }
+    /**
+     * Install a MIME Type into the array.
+     *
+     * @param mimeType The mime type to install
+     */
+    install(mimeType) {
+        const index = this.__mimeTypes.length;
+        this.__mimeTypes.push(mimeType);
+        this.__namedMimeTypes[mimeType.type] = mimeType;
+        this[mimeType.type] = mimeType;
+        this[index] = mimeType;
+    }
+    item(index) {
+        // This behavior is done to emulate a 32-bit uint,
+        // which browsers use.
+        return this.__mimeTypes[index >>> 0];
+    }
+    namedItem(name) {
+        return this.__namedMimeTypes[name];
+    }
+    get length() {
+        return this.__mimeTypes.length;
+    }
+    [Symbol.iterator]() {
+        return this.__mimeTypes[Symbol.iterator]();
+    }
+}
+/**
+ * Equivalent object to `Plugin` that allows us to falsify plugins.
+ */
+class RufflePlugin extends RuffleMimeTypeArray {
+    constructor(name, description, filename) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.filename = filename;
+    }
+}
+/**
+ * Replacement object for `PluginArray` that lets us install new fake plugins.
+ *
+ * This object needs to wrap the native plugin array, since the user might have
+ * actual plugins installed. Firefox doesn't let us enumerate the array, though,
+ * which has some consequences. Namely, we can't actually perfectly wrap the
+ * native plugin array, at least unless there's some secret "unresolved object
+ * property name handler" that I've never known before in JS...
+ *
+ * We can still wrap `namedItem` perfectly at least.
+ *
+ * We also expose a method called `install` which adds a new plugin. This is
+ * used to falsify Flash detection. If the existing `navigator.plugins` has an
+ * `install` method, you should not use `RufflePluginArray` as some other plugin
+ * emulator is already present.
+ */
+class RufflePluginArray {
+    constructor(plugins) {
+        this.__plugins = [];
+        this.__namedPlugins = {};
+        for (let i = 0; i < plugins.length; i++) {
+            this.install(plugins[i]);
+        }
+    }
+    install(plugin) {
+        const index = this.__plugins.length;
+        this.__plugins.push(plugin);
+        this.__namedPlugins[plugin.name] = plugin;
+        this[plugin.name] = plugin;
+        this[index] = plugin;
+    }
+    item(index) {
+        // This behavior is done to emulate a 32-bit uint,
+        // which browsers use. Cloudflare's anti-bot
+        // checks rely on this.
+        return this.__plugins[index >>> 0];
+    }
+    namedItem(name) {
+        return this.__namedPlugins[name];
+    }
+    refresh() {
+        // Nothing to do, we just need to define the method.
+    }
+    [Symbol.iterator]() {
+        return this.__plugins[Symbol.iterator]();
+    }
+    get length() {
+        return this.__plugins.length;
+    }
+}
+/**
+ * A fake plugin designed to trigger Flash detection scripts.
+ */
+const FLASH_PLUGIN = new RufflePlugin("Shockwave Flash", "Shockwave Flash 32.0 r0", "ruffle.js");
+FLASH_PLUGIN.install({
+    type: FUTURESPLASH_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "spl",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH7_AND_8_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH_MOVIE_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+/**
+ * Install a fake plugin such that detectors will see it in `navigator.plugins`.
+ *
+ * This function takes care to check if the existing implementation of
+ * `navigator.plugins` already accepts fake plugin entries. If so, it will use
+ * that version of the plugin array. This allows the plugin polyfill to compose
+ * across multiple plugin emulators with the first emulator's polyfill winning.
+ *
+ * @param plugin The plugin to install
+ */
+function installPlugin(plugin) {
+    if (!("install" in navigator.plugins) || !navigator.plugins["install"]) {
+        Object.defineProperty(navigator, "plugins", {
+            value: new RufflePluginArray(navigator.plugins),
+            writable: false,
+        });
+    }
+    const plugins = navigator.plugins;
+    plugins.install(plugin);
+    if (plugin.length > 0 &&
+        (!("install" in navigator.mimeTypes) || !navigator.mimeTypes["install"])) {
+        Object.defineProperty(navigator, "mimeTypes", {
+            value: new RuffleMimeTypeArray(navigator.mimeTypes),
+            writable: false,
+        });
+    }
+    const mimeTypes = navigator.mimeTypes;
+    for (let i = 0; i < plugin.length; i += 1) {
+        mimeTypes.install(plugin[i]);
+    }
+}
+
+;// CONCATENATED MODULE: ./src/plugin-polyfill.ts
+// This file is compiled and then injected into content.ts's compiled form.
+
+installPlugin(FLASH_PLUGIN);
+
+/******/ })()
+;</script><script charset="utf-8" src="data/ruffle.js"></script>
+            <script src="data/jquery-ui.min.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/jquery-ui-touch-punch.min.js" type="text/javascript" language="JavaScript"> </script>
+            
+
+            <script src="data/bootstrap.min.js" type="text/javascript" language="JavaScript"></script>
+            <script src="data/bootstrap-tabdrop.js" type="text/javascript" language="JavaScript"></script>
+            <script src="data/hideVertMenu.js" type="text/javascript" language="JavaScript"></script>
+
+            <script src="data/jquery.plugin.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/jquery.datepick.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/jquery.datepick.ext.visma.js" type="text/javascript" language="JavaScript"> </script>
+
+            <script src="data/typeahead.jquery.min.js" type="text/javascript" language="JavaScript"> </script>
+
+            <script src="data/locale-fi.js" type="text/javascript" language="JavaScript"></script>
+            <script src="data/commons.bundle.js" type="text/javascript" language="JavaScript"></script>
+            
+            
+            
+            <script src="data/fake.bundle.js" type="text/javascript" language="JavaScript"></script>
+            
+
+            
+ 
+            <script src="data/addevent.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/navigation.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/dropdownfix.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/components.dock.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/components.sidepanel.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/components.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/menuitems.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/ordering.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/bootstrap-slider.min.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/wilma-slider.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/autotemplate.js" type="text/javascript" language="JavaScript"> </script>
+            <script src="data/screenreader.js" type="text/javascript" language="JavaScript"> </script>
+
+
+            
+        
+    <link href="data:text/css,%3Ais(%5Bid*%3D'google_ads_iframe'%5D%2C%5Bid*%3D'taboola-'%5D%2C.taboolaHeight%2C.taboola-placeholder%2C%23credential_picker_container%2C%23credentials-picker-container%2C%23credential_picker_iframe%2C%5Bid*%3D'google-one-tap-iframe'%5D%2C%23google-one-tap-popup-container%2C.google-one-tap-modal-div%2C%23amp_floatingAdDiv%2C%23ez-content-blocker-container)%20%7Bdisplay%3Anone!important%3Bmin-height%3A0!important%3Bheight%3A0!important%3B%7D" rel="stylesheet" type="text/css"></head>
+
+    <body class="nobody">
+
+        
+            
+    <nav class="navbar navbar-default nav-wilma">
+
+        
+            <div class="navbar-header pull-left">
+                <a class="pull-left" id="skipnav" href="#main-content" autofocus="">Siirry sivun pääsisältöön</a>
+                <a class="navbar-brand" style="padding-right: 40px" href=""><img class="wilma-logo" src="data/wilma_logo.svg" alt="Wilma Logo">
+                    
+                </a>
+            </div>
+            <div class="pull-right">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="icon dropdown dropdown-fix" data-dropdownname="ddn0">
+    <a href="" data-toggle="dropdown" role="button" title="Kieli">
+        <span class="vismaicon vismaicon-menu vismaicon-user-settings"></span>
+    </a>
+    <ul class="sr-only" role="menu" data-dropdownname="ddn0">
+        <li class="dropdown-header">Kieli</li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=1" tabindex="-1">Suomi</a></li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=2" tabindex="-1">Svenska</a></li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=3" tabindex="-1">English</a></li>
+    </ul>
+</li>
+
+                </ul>
+            </div>
+        
+        
+    </nav>
+
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            <div id="alerts" class="container">
+                
+
+                
+
+                
+            </div>
+        
+
+        
+
+        <!-- Sivukohtainen alue alkaa -->
+
+            
+            
+            <main id="main-content">
+                
+
+<div class="container-fluid multicol">
+    <div class="row">
+
+        <div class="right col-md-4 col-md-push-8">
+            
+
+            
+    <div class="panel resp-box">
+        <div class="panel-body margin-side margin-top-inline">
+
+
+
+    <h1>
+        
+            <span class="vismaicon vismaicon-unlocked"></span>
+            Kirjaudu sisään
+        
+    </h1>
+    <form action="/login" method="post" target="_top" class="login-form">
+        
+            <div class="row margin-bottom-inline">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input id="login-frontdoor" type="text" name="Login" class="form-control focusonload" placeholder="Käyttäjätunnus" data-ddg-inputtype="credentials.username">
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-inline">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="password" id="password" name="Password" value="" class="form-control" placeholder="Salasana" data-ddg-inputtype="credentials.password">
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-inline">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary form-control" id="login-button" >Kirjaudu sisään</button>
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a class="pull-right" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUXbmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXA%3D">Unohditko salasanasi?</a>
+                    </div>
+                </div>
+            
+            
+        
+        <input type="hidden" name="SESSIONID" value="SessionID">
+        
+    </form>
+
+
+
+        </div>
+    </div>
+
+
+
+
+            
+                <div class="panel">
+                    <div class="panel-body">
+                        <br>
+                        
+                    </div>
+                </div>
+            
+        </div>
+
+        <div class="left col-md-8 col-md-pull-4">
+            
+
+            
+
+            <div class="panel">
+                <div class="panel-body">
+                    
+                        
+                            
+                        
+                    
+
+                    
+                        
+                            <h1>Mikä Wilma on?</h1>
+                            <div class="padding-bottom-inline" id="padding-container">
+                                <p>Wilma on oppilaitoksen hallinto-ohjelman www-liittymä. Tämän Wilma-lisenssin omistat <b>sinä</b>.</p>
+                                <p>Opiskelijat valitsevat Wilmassa kursseja, seuraavat suorituksiaan, lukevat tiedotteita ja viestivät opettajien kanssa.</p>
+                                <p>Opettajat syöttävät Wilman kautta 
+arvioinnit ja poissaolot, päivittävät henkilötietojaan ja viestivät 
+opiskelijoiden ja huoltajien kanssa.</p>
+                                <p>Huoltajat seuraavat ja selvittävät 
+Wilman kautta opiskelijan poissaoloja, viestivät opettajien kanssa ja 
+lukevat koulun tiedotteita.</p>
+                                <p>Wilmaa käyttävät myös oppilaitoksen henkilökunta, johto sekä työpaikkaohjaajat.</p>
+                                
+                                    <p>
+                                        Kirjaudu Wilmaan syöttämällä 
+oikealla puolella oleviin kenttiin käyttäjätunnuksesi ja salasanasi.
+                                        Paina tämän jälkeen <i>Kirjaudu sisään</i> -painiketta.
+                                    </p>
+
+                            </div>
+                            
+
+                        
+                    
+                </div>
+
+
+
+
+        </div>
+    </div>
+
+    <div style="clear : both;">&nbsp;</div>
+    </div>
+
+    
+        <script type="text/javascript" language="JavaScript">
+           
+        </script>
+    
+
+
+            </main>
+
+        <!-- Sivukohtainen alue loppuu -->
+
+        
+
+        
+            <footer class="margin-top-bottom">
+                <img src="data/visma-logo.svg" alt="Visma Logo">
+            </footer>
+        
+
+        
+            <!-- Modals -->
+        
+        <div class="disclaimer-wrapper">
+            
+            
+        </div>
+
+        <div class="hidden">
+            <p id="lok-10031">Sinulla on tallentamattomia muutoksia. Jos kirjaudut ulos, menetät tekemäsi muutokset.</p>
+            <p id="lok-5679">Tallentamattomia muutoksia</p>
+            <p id="lok-1175">Kirjaudu ulos</p>
+            <p id="lok-10032">Pysy tällä sivulla</p>
+            <p id="lok-10037">Viestitoiminnot</p>
+            <p id="lok-417">Jos poistut tallentamatta, menetät tekemäsi muutokset.</p>
+        </div>
+
+        <input type="hidden" id="___cachetag" value="https://cdn.inschool.fi/2.34.21.1/">
+        <input type="hidden" id="___sublangid" value="0">
+
+        
+
+        
+    
+
+
+<ul class="dropdown-menu" role="menu" data-dropdownname="ddn0">
+        <li class="dropdown-header">Kieli</li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=1">Suomi</a></li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=2">Svenska</a></li>
+        <li role="presentation"><a href="https://jamsa.inschool.fi/?langid=3">English</a></li>
+    </ul></body></html>
